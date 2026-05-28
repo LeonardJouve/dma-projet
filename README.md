@@ -1,13 +1,20 @@
 application borne:
-- liste utilisateurs
-- status (in / out)
-- date dernier badge
-- (historique)
-- ecoute
-- creation compte => generation QR avec secret TOTP
+- liste utilisateurs => loris
+- status (in / out) => loris
+- date dernier badge  => loris
+- (historique) => loris
+- creation compte => generation QR avec secret TOTP => leonard
+- db => leonard
+- totp => leonard
+- ecoute => a determiner
+
+- activitées:
+    - liste 
+    - historique personnel
+    - creation user
 
 application utilisateur:
-- envoie TOTP
-- scan QR authentification
-- stockage secret
-- logout
+- envoie TOTP => zaid
+- scan QR authentification => zaid
+- stockage secret => zaid
+- logout => zaid
