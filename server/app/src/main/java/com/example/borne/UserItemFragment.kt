@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import com.example.borne.viewmodels.AttendanceViewModel
+import com.example.borne.viewmodels.AttendanceViewModelFactory
 import java.util.Date
 
 /**
@@ -17,11 +20,9 @@ class UserItemFragment : Fragment() {
 
     private var columnCount = 1
 
-    private val placeholderItems = listOf(
-        UserItem("Alice", true, Date()),
-        UserItem("Bob", false, Date()),
-        UserItem("Charlie", true, Date())
-    )
+    val viewModel: AttendanceViewModel by activityViewModels {
+        AttendanceViewModelFactory((requireActivity().application as App).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,12 @@ class UserItemFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = UserAdapter(placeholderItems)
+
+                viewModel.users.observe(viewLifecycleOwner) { users ->
+                    adapter = UserAdapter(users) { position ->
+                        viewModel.updateUser(position)
+                    }
+                }
             }
         }
         return view

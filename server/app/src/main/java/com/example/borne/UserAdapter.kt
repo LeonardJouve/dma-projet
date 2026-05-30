@@ -5,18 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 
-import com.example.borne.placeholder.PlaceholderContent.PlaceholderItem
 import com.example.borne.databinding.FragmentUserItemBinding
 
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 /**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
+ * [RecyclerView.Adapter] that can display a [UserItem].
  */
 class UserAdapter(
-    private val values: List<UserItem>
+    private val values: List<UserItem>,
+    private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,7 +27,6 @@ class UserAdapter(
                 false
             )
         )
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -38,6 +36,8 @@ class UserAdapter(
 
         val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
         holder.dateView.text = formatter.format(item.date)
+
+        holder.itemView.setOnClickListener { onItemClick(position) }
     }
 
     override fun getItemCount(): Int = values.size
