@@ -13,7 +13,7 @@ interface AttendanceDao {
     suspend fun insert(event: AttendanceEvent)
 
     @Insert()
-    suspend fun insert(user: User)
+    suspend fun insert(user: User): Long
 
     @Query("SELECT * FROM AttendanceEvent WHERE userId = :userId ORDER BY time DESC LIMIT 1")
     fun getUserLastEvent(userId: Long) : LiveData<AttendanceEvent?>

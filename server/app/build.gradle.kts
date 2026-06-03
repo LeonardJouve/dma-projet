@@ -80,4 +80,10 @@ dependencies {
 // ViewModels
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
+
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.android.material)
+
+    implementation(libs.dev.samstevens.totp)
+    implementation(libs.zxing)
 }

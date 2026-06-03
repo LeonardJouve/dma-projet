@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">borne</string>
-    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_create_user">Create user</string>
+    <string name="create_user">create user</string>
+    <string name="enter_name">Enter name</string>
+    <string name="create">Create</string>
+    <string name="back">Back</string>
 </resources>

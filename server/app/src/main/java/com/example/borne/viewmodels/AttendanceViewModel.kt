@@ -33,8 +33,8 @@ class AttendanceViewModel(private val repository: AttendanceRepository) : ViewMo
         users.value = list
     }
 
-    suspend fun insertUser(user: User) {
-        repository.insertUser(user)
+    suspend fun insertUser(user: User): Long {
+        return repository.insertUser(user)
     }
 }
 

@@ -17,8 +17,8 @@ class AttendanceRepository(private val dao: AttendanceDao) {
         ))
     }
 
-    suspend fun insertUser(user: User) {
-        dao.insert(user)
+    suspend fun insertUser(user: User): Long {
+        return dao.insert(user)
     }
 
     fun getUserLastEvent(user: User): LiveData<AttendanceEvent?> {
