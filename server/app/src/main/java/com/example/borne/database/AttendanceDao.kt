@@ -17,4 +17,10 @@ interface AttendanceDao {
 
     @Query("SELECT * FROM AttendanceEvent WHERE userId = :userId ORDER BY time DESC LIMIT 1")
     fun getUserLastEvent(userId: Long) : LiveData<AttendanceEvent?>
+
+    @Query("SELECT * FROM AttendanceEvent WHERE userId = :userId ORDER BY time DESC")
+    fun getUserEventHistory(userId: Long) : LiveData<List<AttendanceEvent>>
+
+    @Query("SELECT * FROM User")
+    fun getUsers() : LiveData<List<User>>
 }
