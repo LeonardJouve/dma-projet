@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.borne.database.AttendanceRepository
 import com.example.borne.database.models.AttendanceEvent
 import com.example.borne.database.models.User
+import com.example.borne.database.models.UserWithLastEvent
 
 class AttendanceViewModel(private val repository: AttendanceRepository) : ViewModel() {
 
@@ -15,6 +16,10 @@ class AttendanceViewModel(private val repository: AttendanceRepository) : ViewMo
 
     fun getUsers(): LiveData<List<User>> {
         return repository.getUsers()
+    }
+
+    fun getUsersWithLastEvent(): LiveData<List<UserWithLastEvent>> {
+        return repository.getUsersWithLastEvent()
     }
 
     fun getUserEventHistory(user: User): LiveData<List<AttendanceEvent>> {

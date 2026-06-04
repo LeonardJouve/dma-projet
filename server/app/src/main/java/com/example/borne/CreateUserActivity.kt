@@ -57,9 +57,6 @@ class CreateUserActivity : AppCompatActivity() {
                 val id = attendanceViewModel.insertUser(user)
                 user.id = id
 
-                // TODO : for test only
-                attendanceViewModel.badge(user)
-
                 qrImage.setImageBitmap(generateUserQR(user))
                 qrImage.visibility = View.VISIBLE
                 Toast.makeText(this@CreateUserActivity, "Created: $name", Toast.LENGTH_SHORT).show()

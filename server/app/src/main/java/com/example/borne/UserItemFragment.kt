@@ -47,7 +47,7 @@ class UserItemFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
 
-                viewModel.getUsers().observe(viewLifecycleOwner) { users ->
+                viewModel.getUsersWithLastEvent().observe(viewLifecycleOwner) { users ->
 
                     // Ouvre l'activité HistoryActivity
                     adapter = UserAdapter(users) { user ->

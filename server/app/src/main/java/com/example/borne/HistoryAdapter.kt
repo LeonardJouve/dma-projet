@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.borne.database.models.AttendanceEvent
 import com.example.borne.databinding.FragmentHistoryItemBinding
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 /**
  * [RecyclerView.Adapter] that can display a [AttendanceEvent].
@@ -27,8 +29,11 @@ class HistoryAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val event = values[position]
+
         holder.statusView.text = event.type.toString()
-        holder.dateView.text = event.time.toString()
+
+        val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+        holder.dateView.text = formatter.format(event.time)
     }
 
     override fun getItemCount(): Int = values.size
