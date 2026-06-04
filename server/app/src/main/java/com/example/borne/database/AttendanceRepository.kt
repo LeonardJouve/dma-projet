@@ -4,17 +4,20 @@ import androidx.lifecycle.LiveData
 import com.example.borne.database.models.AttendanceEvent
 import com.example.borne.database.models.EventType
 import com.example.borne.database.models.User
+import com.example.borne.database.models.UserWithLastEvent
 
 class AttendanceRepository(private val dao: AttendanceDao) {
     suspend fun badge(user: User) {
-        dao.insert(AttendanceEvent(
-            userId = user.id!!,
-            type = when (getUserLastEvent(user).value?.type) {
-                EventType.IN -> EventType.OUT
-                else -> EventType.IN
-            },
-            time = System.currentTimeMillis(),
-        ))
+        dao.insert(
+            AttendanceEvent(
+                userId = user.id!!,
+                type = when (dao.getUserLastEventNotLiveData(user.id!!)?.type) {
+                    EventType.IN -> EventType.OUT
+                    else -> EventType.IN
+                },
+                time = System.currentTimeMillis(),
+            )
+        )
     }
 
     suspend fun insertUser(user: User): Long {
@@ -27,6 +30,10 @@ class AttendanceRepository(private val dao: AttendanceDao) {
 
     fun getUsers(): LiveData<List<User>> {
         return dao.getUsers()
+    }
+
+    fun getUsersWithLastEvent(): LiveData<List<UserWithLastEvent>> {
+        return dao.getUsersWithLastEvent()
     }
 
     fun getUserEventHistory(user: User): LiveData<List<AttendanceEvent>> {

@@ -1,20 +1,20 @@
 package com.example.borne
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.borne.database.models.User
 import com.example.borne.viewmodels.AttendanceViewModel
 import com.example.borne.viewmodels.AttendanceViewModelFactory
+import kotlinx.coroutines.launch
 
 class HistoryActivity : AppCompatActivity() {
 
-    private val viewModel: AttendanceViewModel by viewModels {
+    private val attendanceViewModel: AttendanceViewModel by viewModels {
         AttendanceViewModelFactory((application as App).repository)
     }
 
@@ -25,10 +25,24 @@ class HistoryActivity : AppCompatActivity() {
         @Suppress("DEPRECATION")
         val user = intent.getSerializableExtra("user") as User
 
-        viewModel.getUserEventHistory(user).observe(this) { records ->
+        attendanceViewModel.getUserEventHistory(user).observe(this) { records ->
             val recyclerView = findViewById<RecyclerView>(R.id.list)
             recyclerView.layoutManager = LinearLayoutManager(this)
             recyclerView.adapter = HistoryAdapter(records)
+        }
+
+        val testButton = findViewById<Button>(R.id.testButton)
+        val backButton = findViewById<Button>(R.id.backButton)
+
+        backButton.setOnClickListener {
+            finish()
+        }
+
+        // TODO : for test only
+        testButton.setOnClickListener {
+            lifecycleScope.launch {
+                attendanceViewModel.badge(user)
+            }
         }
     }
 }
