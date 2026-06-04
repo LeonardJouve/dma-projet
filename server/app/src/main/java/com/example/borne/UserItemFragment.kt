@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.example.borne.viewmodels.AttendanceViewModel
 import com.example.borne.viewmodels.AttendanceViewModelFactory
-import java.util.Date
+import kotlin.getValue
 
 /**
  * A fragment representing a list of Items.
@@ -20,7 +20,7 @@ class UserItemFragment : Fragment() {
 
     private var columnCount = 1
 
-    val viewModel: AttendanceViewModel by activityViewModels {
+    private val viewModel: AttendanceViewModel by activityViewModels {
         AttendanceViewModelFactory((requireActivity().application as App).repository)
     }
 
@@ -46,9 +46,13 @@ class UserItemFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
 
-                viewModel.users.observe(viewLifecycleOwner) { users ->
-                    adapter = UserAdapter(users) { position ->
-                        viewModel.updateUser(position)
+                viewModel.getUsers().observe(viewLifecycleOwner) { users ->
+
+                    // Ouvre l'activité HistoryActivity
+                    adapter = UserAdapter(users) { position ->/*
+                        val intent = Intent(requireContext(), HistoryActivity::class.java)
+                        intent.putExtra("position", position)
+                        startActivity(intent)*/
                     }
                 }
             }

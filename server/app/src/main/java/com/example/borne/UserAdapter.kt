@@ -4,6 +4,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.borne.database.models.EventType
+import com.example.borne.database.models.User
 
 import com.example.borne.databinding.FragmentUserItemBinding
 
@@ -11,10 +13,10 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 /**
- * [RecyclerView.Adapter] that can display a [UserItem].
+ * [RecyclerView.Adapter] that can display a [User].
  */
 class UserAdapter(
-    private val values: List<UserItem>,
+    private val values: List<User>,
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
@@ -32,11 +34,16 @@ class UserAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.nameView.text = item.name
-        holder.statusView.text = if (item.status) "Présent" else "Absent"
+/*
+        val lastEvent = viewModel.getUserLastEvent(item)
+        holder.statusView.text = if (lastEvent.type == EventType.IN) "Présent" else "Absent"
 
         val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
-        holder.dateView.text = formatter.format(item.date)
+        holder.dateView.text = formatter.format(lastEvent.time)
+*/
 
+        holder.statusView.text = "STATUS"
+        holder.dateView.text = "DATE"
         holder.itemView.setOnClickListener { onItemClick(position) }
     }
 
