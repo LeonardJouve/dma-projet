@@ -9,4 +9,5 @@ import kotlinx.serialization.Serializable
 data class User(
     @PrimaryKey(autoGenerate = true) var id: Long? = null,
     var name: String,
-    var secret: String)
+    var secret: String
+) : java.io.Serializable

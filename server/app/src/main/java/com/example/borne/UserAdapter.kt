@@ -17,7 +17,7 @@ import java.util.Locale
  */
 class UserAdapter(
     private val values: List<User>,
-    private val onItemClick: (Int) -> Unit
+    private val onItemClick: (User) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,8 +32,8 @@ class UserAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.nameView.text = item.name
+        val user = values[position]
+        holder.nameView.text = user.name
 /*
         val lastEvent = viewModel.getUserLastEvent(item)
         holder.statusView.text = if (lastEvent.type == EventType.IN) "Présent" else "Absent"
@@ -44,7 +44,7 @@ class UserAdapter(
 
         holder.statusView.text = "STATUS"
         holder.dateView.text = "DATE"
-        holder.itemView.setOnClickListener { onItemClick(position) }
+        holder.itemView.setOnClickListener { onItemClick(user) }
     }
 
     override fun getItemCount(): Int = values.size
@@ -54,9 +54,5 @@ class UserAdapter(
         val nameView: TextView = binding.name
         val statusView: TextView = binding.status
         val dateView : TextView = binding.date
-
-        override fun toString(): String {
-            return super.toString() + " '" + nameView.text + "'"
-        }
     }
 }
