@@ -7,14 +7,21 @@ import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.borne.viewmodels.AttendanceViewModel
 import com.example.borne.viewmodels.AttendanceViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dev.samstevens.totp.code.CodeGenerator
+import dev.samstevens.totp.code.DefaultCodeGenerator
+import dev.samstevens.totp.code.DefaultCodeVerifier
+import dev.samstevens.totp.time.SystemTimeProvider
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -30,11 +37,46 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mCapturingThread: CapturingThread
 
     private external fun initNative()
-    private external fun processCaptureData(data: ShortArray?)
+    private external fun processCaptureData(data: ShortArray)
 
-    private fun onNativeReceivedMessage(c_message: ByteArray?) {
-        val message = String(c_message!!)
-        Log.v("ggwave", "Received message: " + message)
+    private fun onNativeReceivedMessage(c_message: ByteArray) {
+        val digitBytes = c_message.takeWhile {
+            it.toInt().toChar().isDigit()
+        }
+
+        val message = String(digitBytes.toByteArray())
+        if (message.length <= 6) {
+            runOnUiThread {
+                Toast.makeText(this, "Received message: $message", Toast.LENGTH_SHORT).show()
+            }
+            return
+        }
+
+        val totp: String = message.substring(0, 6)
+        Log.d("totp", "TOTP: $totp")
+        val userId: Long = message.substring(6).toLongOrNull() ?: return
+        Log.d("totp", "User ID: $userId")
+
+        val user = attendanceViewModel.getUser(userId) ?: return
+
+        val timeProvider = SystemTimeProvider()
+        val codeGenerator: CodeGenerator = DefaultCodeGenerator()
+        val verifier = DefaultCodeVerifier(codeGenerator, timeProvider)
+
+        if (!verifier.isValidCode(user.secret, totp)) {
+            runOnUiThread {
+                Toast.makeText(this, "invalid totp", Toast.LENGTH_SHORT).show()
+            }
+            return
+        }
+
+        runOnUiThread {
+            Toast.makeText(this, "valid totp", Toast.LENGTH_SHORT).show()
+        }
+
+        lifecycleScope.launch {
+            attendanceViewModel.badge(user)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +101,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CreateUserActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mCapturingThread.stopCapturing()
     }
 
     private fun startAudioCapture() {

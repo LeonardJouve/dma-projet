@@ -29,6 +29,9 @@ interface AttendanceDao {
     @Query("SELECT * FROM User")
     fun getUsers() : LiveData<List<User>>
 
+    @Query("SELECT * FROM User WHERE id = :userId LIMIT 1")
+    fun getUser(userId: Long): User?
+
     @Transaction
     @Query("SELECT * FROM User")
     fun getUsersWithLastEvent() : LiveData<List<UserWithLastEvent>>

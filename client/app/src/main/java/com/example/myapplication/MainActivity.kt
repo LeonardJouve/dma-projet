@@ -64,6 +64,7 @@ fun MainAppScreen(){
     Log.d("isWorking", isWorking.toString())
     val timeProvider: TimeProvider = SystemTimeProvider()
     val codeGenerator: CodeGenerator = DefaultCodeGenerator()
+    val step = 30
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -88,7 +89,7 @@ fun MainAppScreen(){
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(onClick = {
-                val totpCode = codeGenerator.generate(currentSecret, timeProvider.time)
+                val totpCode = codeGenerator.generate(currentSecret, Math.floorDiv(timeProvider.time, step))
 
                 val payloadToSend = "$totpCode$currentId"
 

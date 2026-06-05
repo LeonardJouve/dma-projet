@@ -32,6 +32,10 @@ class AttendanceRepository(private val dao: AttendanceDao) {
         return dao.getUsers()
     }
 
+    fun getUser(userId: Long): User? {
+        return dao.getUser(userId)
+    }
+
     fun getUsersWithLastEvent(): LiveData<List<UserWithLastEvent>> {
         return dao.getUsersWithLastEvent()
     }

@@ -18,6 +18,10 @@ class AttendanceViewModel(private val repository: AttendanceRepository) : ViewMo
         return repository.getUsers()
     }
 
+    fun getUser(userId: Long): User? {
+        return repository.getUser(userId)
+    }
+
     fun getUsersWithLastEvent(): LiveData<List<UserWithLastEvent>> {
         return repository.getUsersWithLastEvent()
     }

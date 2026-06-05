@@ -27,6 +27,7 @@ class CapturingThread(val mListener: AudioDataReceivedListener) {
 
         mShouldContinue = true
         mThread = Thread(object : Runnable {
+            @RequiresPermission(Manifest.permission.RECORD_AUDIO)
             override fun run() {
                 capture()
             }
