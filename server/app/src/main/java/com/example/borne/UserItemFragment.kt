@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import com.example.borne.viewmodels.AttendanceViewModel
 import com.example.borne.viewmodels.AttendanceViewModelFactory
@@ -39,22 +41,32 @@ class UserItemFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_item_list, container, false)
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
+        val headers = view.findViewById<LinearLayout>(R.id.headers)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.list)
+        val emptyMessage = view.findViewById<TextView>(R.id.empty_message)
 
-                viewModel.getUsersWithLastEvent().observe(viewLifecycleOwner) { users ->
+        recyclerView.layoutManager = when {
+            columnCount <= 1 -> LinearLayoutManager(context)
+            else -> GridLayoutManager(context, columnCount)
+        }
 
-                    // Ouvre l'activité HistoryActivity
-                    adapter = UserAdapter(users) { user ->
-                        val intent = Intent(requireContext(), HistoryActivity::class.java)
-                        intent.putExtra("user", user)
-                        startActivity(intent)
-                    }
+        viewModel.getUsersWithLastEvent().observe(viewLifecycleOwner) { users ->
+
+            if (users.isEmpty()) {
+                headers.visibility = View.GONE
+                recyclerView.visibility = View.GONE
+                emptyMessage.visibility = View.VISIBLE
+
+            } else {
+                headers.visibility = View.VISIBLE
+                recyclerView.visibility = View.VISIBLE
+                emptyMessage.visibility = View.GONE
+
+                // Ouvre l'activité HistoryActivity
+                recyclerView.adapter = UserAdapter(users) { user ->
+                    val intent = Intent(requireContext(), HistoryActivity::class.java)
+                    intent.putExtra("user", user)
+                    startActivity(intent)
                 }
             }
         }

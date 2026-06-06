@@ -1,38 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+    android:padding="24dp"
+    android:orientation="vertical"
+    android:background="#FAFAFA">
 
     <LinearLayout
+        android:id="@+id/headers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/testButton"
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
             android:layout_weight="1"
-            android:text="Test"
-            android:layout_marginEnd="8dp" />
+            android:text="@string/type"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/backButton"
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
             android:layout_weight="1"
-            android:text="@string/back" />
+            android:text="@string/date"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/empty_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headers"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/no_events"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@id/buttons"
+        android:layout_below="@id/headers"
+        android:orientation="vertical"/>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/testButton"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Test"
+            android:layout_marginTop="12dp"
+            app:cornerRadius="12dp"
+            app:strokeWidth="1dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/backButton"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="@string/back"
+            android:layout_marginTop="12dp"
+            app:cornerRadius="12dp"
+            app:strokeWidth="1dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

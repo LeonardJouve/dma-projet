@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.borne.database.models.EventType
 import com.example.borne.database.models.User
 import com.example.borne.database.models.UserWithLastEvent
 import com.example.borne.databinding.FragmentUserItemBinding
@@ -36,7 +37,7 @@ class UserAdapter(
         holder.nameView.text = user.name
 
         if (lastEvent == null) {
-            holder.statusView.text = "None"
+            holder.statusView.text = EventType.OUT.toString()
             holder.dateView.text = "None"
         } else {
             holder.statusView.text = lastEvent.type.toString()

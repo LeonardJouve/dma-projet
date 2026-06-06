@@ -5,4 +5,10 @@
     <string name="enter_name">Enter name</string>
     <string name="create">Create</string>
     <string name="back">Back</string>
+    <string name="user">User</string>
+    <string name="status">Status</string>
+    <string name="type">Type</string>
+    <string name="date">Date</string>
+    <string name="no_users">No users</string>
+    <string name="no_events">No events</string>
 </resources>
