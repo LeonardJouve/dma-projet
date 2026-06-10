@@ -89,6 +89,10 @@ class MainActivity : AppCompatActivity() {
         })
         startAudioCapture()
 
+        if (!microphoneSupportUltrasound()) {
+            Toast.makeText(this, "phone microphone does not support ultrasound", Toast.LENGTH_SHORT).show()
+        }
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, UserItemFragment.newInstance(1))
