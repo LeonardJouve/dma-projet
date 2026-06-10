@@ -10,7 +10,7 @@ background: '#fff'
 Using ggwave
 
 <div class="mt-10 text-sm">
-  Zaid Schouwey & Loris Marzullo & Jouve Léonard
+  Zaid Schouwey & Loris Marzullo & Léonard Jouve
 </div>
 
 ---
